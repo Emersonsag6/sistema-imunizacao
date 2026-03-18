@@ -4,34 +4,35 @@
 # ============================================================================
 
 # INSTALAÇÕES
-import sys
-import subprocess
-
-def instalar_dependencias():
-    dependencias = [
-        'gradio', 'pandas', 'openpyxl', 'fuzzywuzzy', 
-        'python-Levenshtein', 'unidecode'
-    ]
-    for dep in dependencias:
-        try:
-            __import__(dep.replace('-', '_'))
-        except ImportError:
-            subprocess.check_call([sys.executable, '-m', 'pip', 'install', '-q', dep])
-
-instalar_dependencias()
-
-import gradio as gr
-import pandas as pd
-import numpy as np
-import json
+# Servir arquivos estáticos (PWA)
 import os
-from datetime import datetime, date, timedelta
-from fuzzywuzzy import fuzz
-from unidecode import unidecode
-import re
-from io import BytesIO
+from pathlib import Path
 
-print("✅ Dependências instaladas!")
+# Criar diretório public se não existir
+os.makedirs('public', exist_ok=True)
+
+# Copiar manifest.json
+manifest_content = """{
+  "name": "Sistema de Imunização",
+  "short_name": "Imunização",
+  "description": "Sistema de Gestão de Imunização",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#4CAF50",
+  "icons": [
+    {
+      "src": "data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 192 192'><rect fill='%234CAF50' width='192' height='192'/><text x='50%' y='50%' font-size='120' fill='white' text-anchor='middle' dominant-baseline='middle'>💉</text></svg>",
+      "sizes": "192x192",
+      "type": "image/svg+xml"
+    }
+  ]
+}"""
+
+with open('public/manifest.json', 'w') as f:
+    f.write(manifest_content)
+
+print("✅ PWA configurado!")
 
 # ============================================================================
 # SEÇÃO 1: LIMPEZA DE DADOS
