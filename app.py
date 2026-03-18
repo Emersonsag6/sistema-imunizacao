@@ -2170,5 +2170,11 @@ print("=" * 80 + "\n")
 # SEÇÃO 7: LAUNCH
 # ============================================================================
 
+# ============================================================================
+# INICIALIZAÇÃO
+# ============================================================================
+
 if __name__ == "__main__":
-    interface.launch(share=True, debug=False)
+    import uvicorn
+    port = int(os.environ.get("PORT", 7860))
+    uvicorn.run(app, host="0.0.0.0", port=port, log_level="info")
